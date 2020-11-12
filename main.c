@@ -48,14 +48,14 @@ void print_board(char board[ROW][COLUMN])
 	}
 }
 
-void print_status(int black, int white, int counter)
+void print_status(int white int black, int counter)
 {
 	char *current_player = (counter % 2 == 0)? "Black":"White";
 	printf("STATUS - WHITE: %d, BLACK: %d\n", white, black);
 	printf("TURN %d: %s player's turn.\n", counter, current_player);
 }
 
-int count_Num(char board[ROW][COLUMN], char c)
+int count_num(char board[ROW][COLUMN], char c)
 {
 	int i, j;
 	int count=0;
@@ -78,8 +78,19 @@ int main(int argc, char *argv[]) {
 	char board[ROW][COLUMN];
 	int count_turn = 1; 
 	
-	initial_board(board);
-	print_board(board);
+	initial_board(board); // 게임초기화 
+
+	int num_white = count_num(board, 'W');
+	int num_black = count_num(board, 'B');
+	
+	do 
+	{
+		print_board(board);   // 보드판 출력 
+		print_status(num_white, num_black, count_turn );
+		
+		
+	} 
+	
 	
 	
 	
