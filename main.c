@@ -5,7 +5,7 @@
 #define COLUMN 6
 
 #define TRUE 1
-#define FALSE 1
+#define FALSE 0
 
 int now_ROW;
 int now_COLUMN;
@@ -48,7 +48,7 @@ void print_board(char board[ROW][COLUMN])
 	}
 }
 
-void print_status(int white int black, int counter)
+void print_status(int white, int black, int counter)
 {
 	char *current_player = (counter % 2 == 0)? "Black":"White";
 	printf("STATUS - WHITE: %d, BLACK: %d\n", white, black);
@@ -79,25 +79,19 @@ void input_value(char board[ROW][COLUMN], int counter )
 	while (TRUE)
 	{
 		printf("put a new othello(such as 4 5): ");
-		scanf("%d %d",&row, &column )
+	
 		
-		if (scanf("%d", &row) != 1)
-		{
-			printf("invalid input format\n");
-			exit(1);
-		}
-		if(scanf("%d", &column) != 1)
+		if (scanf("%d", &row) != 1 || scanf("%d", &column) != 1 )
 		{
 			printf("invalid input format\n");
 			exit(1);
 		}
 		
-
 	     if (row>5 || row<0 ||column>5 ||column <0)
 	    {
 		printf("invalid input format\n");
 	    }
-	     else if (board[row][cloumn] != ' ')
+	     else if (board[row][column] != ' ')
 	    {
 		printf("invalid input! (already occupied)");
 	    }
@@ -108,8 +102,52 @@ void input_value(char board[ROW][COLUMN], int counter )
 	
 	now_ROW= row;
     now_COLUMN= column;
-    board[row][column] = (counter %2 ==0)? 'W': 'B';
+    board[row][column] = (counter %2 == 0)? 'B':'W';
 }
+
+ void flip_pieces(char board[ROW][COLUMN], int counter) // Flips any of the second player's pieces that are between the first player's pieces
+ {
+ 	int i,j;
+     char border = counter % 2 == 0 ? 'B':'W';
+     char to_Flip = counter % 2 == 1 ? 'B':'W';
+     for ( i = -1; i <= 1; i++)
+     {
+        for ( j = -1; j <= 1; j++)
+        {
+            if (i == 0 && j == 0)
+                continue;
+            if (board[now_ROW + i][now_COLUMN + j] == to_Flip)
+            {
+                int flag = FALSE;
+                int x = now_ROW + i;
+                int y = now_COLUMN + j;
+                while (x <= 7 && x >= 0 && y <= 7 && y >= 0)
+                {
+                    if (board[x][y] == border)
+                    {
+                        flag = TRUE;
+                        break;
+                    }
+                    else if (board[x][y] == ' ')
+                        break;
+                    x += i;
+                    y += j;
+                }
+                x = now_ROW + i;
+                y = now_COLUMN + j;
+                if (flag)
+                {
+                    while (board[x][y] != border)
+                    {
+                        board[x][y] = border;
+                        x += i;
+                        y += j;
+                    }
+                }
+            }
+        }
+    }
+ }
 
 
 
@@ -136,12 +174,15 @@ int main(int argc, char *argv[]) {
 	{
 		print_board(board);   // 보드판 출력 
 		print_status(num_white, num_black, count_turn );
-		
-		
-	} 
+		input_value(board, count_turn);
+		flip_pieces(board, count_turn);
+		count_turn ++;
+		num_white = count_num(board, 'W');
+		num_black = count_num(board, 'B');
+	} while ((num_white < 17 && num_black <17 ) && (num_white<17 && num_black != 0)  );
 	
 	
-	
+	print_board(board);
 	check_result(num_white, num_black);
 	return 0;
 }
