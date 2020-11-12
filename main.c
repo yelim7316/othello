@@ -3,10 +3,12 @@
 
 #define ROW 6
 #define COLUMN 6
-
 #define TRUE 1
 #define FALSE 0
 
+#define B "X"
+#define W "O"
+ 
 int now_ROW;
 int now_COLUMN;
 
@@ -149,7 +151,15 @@ void input_value(char board[ROW][COLUMN], int counter )
     }
  }
 
+void is_Game_End()
+{
+	
+}
 
+void flip_result()
+{
+	
+}
 
 void check_result(int white, int black) 
 {
