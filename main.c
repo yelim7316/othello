@@ -55,6 +55,7 @@ void print_status(int white int black, int counter)
 	printf("TURN %d: %s player's turn.\n", counter, current_player);
 }
 
+
 int count_num(char board[ROW][COLUMN], char c)
 {
 	int i, j;
@@ -70,6 +71,54 @@ int count_num(char board[ROW][COLUMN], char c)
 	return count;
 }
 
+void input_value(char board[ROW][COLUMN], int counter )
+{
+	int row;
+	int column;
+	
+	while (TRUE)
+	{
+		printf("put a new othello(such as 4 5): ");
+		scanf("%d %d",&row, &column )
+		
+		if (scanf("%d", &row) != 1)
+		{
+			printf("invalid input format\n");
+			exit(1);
+		}
+		if(scanf("%d", &column) != 1)
+		{
+			printf("invalid input format\n");
+			exit(1);
+		}
+		
+
+	     if (row>5 || row<0 ||column>5 ||column <0)
+	    {
+		printf("invalid input format\n");
+	    }
+	     else if (board[row][cloumn] != ' ')
+	    {
+		printf("invalid input! (already occupied)");
+	    }
+	     else 
+	          break;
+	
+	}	
+	
+	now_ROW= row;
+    now_COLUMN= column;
+    board[row][column] = (counter %2 ==0)? 'W': 'B';
+}
+
+
+
+void check_result(int white, int black) 
+{
+	char *winner = (white > black)? "White" : "Black";
+	printf("RESULT- WHITE: %d, BLACK: %d", white, black);
+	printf("The winner is %s player", winner);
+}
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
@@ -93,6 +142,6 @@ int main(int argc, char *argv[]) {
 	
 	
 	
-	
+	check_result(num_white, num_black);
 	return 0;
 }
