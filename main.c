@@ -3,12 +3,16 @@
 
 #define ROW 6
 #define COLUMN 6
+#define SIZE 6
+
 #define TRUE 1
 #define FALSE 0
 
+
 #define B "X"
 #define W "O"
- 
+
+int move[ROW][COLUMN]; 
 int now_ROW;
 int now_COLUMN;
 
@@ -73,39 +77,108 @@ int count_num(char board[ROW][COLUMN], char c)
 	return count;
 }
 
+
+int valid_move(char board[ROW][COLUMN], int move[][SIZE], char player )
+{
+	int delta_row = 0;
+	int delta_column = 0;
+	int row = 0;
+	int column = 0;
+	int x = 0;
+	int y = 0;
+	int count_move = 0;
+	
+	char opponent = (player == 'W')? 'B':'W';
+	
+	for(row = 0; row < ROW; row++ )
+	{
+		for (column = 0; column < COLUMN; column++)
+		{
+			move[row][column] = 0;
+		}
+	} 
+	
+	for(row = 0; row < ROW; row++ )
+	{
+		for (column = 0; column < COLUMN; column++)
+		{
+			if (board[row][column] != ' ')
+			       continue;
+			
+			for (delta_row = -1 ; delta_row <=1 ; delta_row++ )
+			{
+				for(delta_column = -1; delta_column<=1 ; delta_column ++ )
+				{
+					if (row + delta_row < 0 || row + delta_row >= SIZE ||
+					    column + delta_column <0 || column + delta_column >= SIZE ||
+						  (delta_row == 0 && delta_column == 0) )
+						
+						continue;
+					
+					if (board[row + delta_row][column + delta_column] == opponent )
+					{
+						x = row + delta_row;
+						y = column + delta_column;
+						
+						
+						for (;;)
+						{
+							x += delta_row;
+							y += delta_column;
+							
+							if (x < 0 || x >= SIZE || y < 0 || y >= SIZE )
+							    break;
+							    
+							if (board[x][y] == ' ')
+							      break;
+							      
+							if (board[x][y] == player)
+							{
+								move[row][column] = 1;
+								count_move++;
+								break;
+							 	
+							}	     
+						}
+					}
+					
+					
+				}
+			}       
+		}
+		
+	 return count_move;
+	} 
+	
+	
+}
+
+
+
 void input_value(char board[ROW][COLUMN], int counter )
 {
 	int row;
 	int column;
 	
+	int player= (counter %2 == 0)? 'B':'W';
+	
+	
 	while (TRUE)
 	{
 		printf("put a new othello(such as 4 5): ");
-	
+		scanf("%d %d", &row, &column);
 		
-		if (scanf("%d", &row) != 1 || scanf("%d", &column) != 1 )
-		{
-			printf("invalid input format\n");
-			exit(1);
-		}
-		
-	     if (row>5 || row<0 ||column>5 ||column <0)
-	    {
-		printf("invalid input format\n");
-	    }
-	     else if (board[row][column] != ' ')
-	    {
-		printf("invalid input! (already occupied)");
-	    }
-	     else 
-	          break;
-	
+		if (valid_move(board, move , player) == 0 )
+		   break;
+		else (printf("Not a valid move!\n"));
 	}	
 	
 	now_ROW= row;
     now_COLUMN= column;
     board[row][column] = (counter %2 == 0)? 'B':'W';
 }
+
+
 
  void flip_pieces(char board[ROW][COLUMN], int counter) // Flips any of the second player's pieces that are between the first player's pieces
  {
@@ -151,8 +224,9 @@ void input_value(char board[ROW][COLUMN], int counter )
     }
  }
 
-void is_Game_End()
+void is_Game_End()  //게임이 끝나는 조건 확인하는 함수 
 {
+	
 	
 }
 
@@ -185,6 +259,8 @@ int main(int argc, char *argv[]) {
 		print_board(board);   // 보드판 출력 
 		print_status(num_white, num_black, count_turn );
 		input_value(board, count_turn);
+		
+		
 		flip_pieces(board, count_turn);
 		count_turn ++;
 		num_white = count_num(board, 'W');
