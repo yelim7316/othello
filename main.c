@@ -525,7 +525,7 @@ int valid_move(char board[ROW][COLUMN], int move[][SIZE], char player, int row, 
    }
    
    
-   for (i = 0; i < 8; i++)
+   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 
    {
    		if (directions[i] == 1)
    		{
@@ -549,13 +549,13 @@ void input_value(char board[ROW][COLUMN], int counter )
 		printf("put a new othello(such as 4 5): ");
 		scanf("%d %d", &row, &column);
 		
-		if (board[row][column] != ' ')
-		{
-			printf("Not a valid move!(already occupied)\n");
+		if (board[row][column] != ' ')  // 이미 알이 놓여져 있는 곳일 때  
+		{ 
+			printf("Not a valid move!(already occupied)\n"); // 알을 놓지 못함을 출력 
 			input_value(board, counter);
 		}
 			
-		if (valid_move(board, move , player, row, column) == 1 )
+		if (valid_move(board, move , player, row, column) == 1 ) 
 			break;
 		else (printf("Not a valid move!\n"));
 	
@@ -611,7 +611,7 @@ void input_value(char board[ROW][COLUMN], int counter )
     }
 	 
     int m;
-    printf("             ::: Flip result :::\n");
+    printf("             ::: Flip result :::\n");  // 뒤집은 결과를 출력 
     for (m = 0; m < 8 ; m++)
     {
     	switch(m)
@@ -654,7 +654,7 @@ void input_value(char board[ROW][COLUMN], int counter )
 			break;			
 	}
 	printf("has flipped %d othellos!\n\n\n", flip_count[0] + flip_count[1] + flip_count[2]+ flip_count[3]+ flip_count[4]+ flip_count[5]+ flip_count[6]+ flip_count[7]);
-    // directions[i]가 1인 아이들 + 그 아이들을 통해서 몇개를 뒤집었는지 (flip_count[i]) 
+    // directions[i]가 1인 아이들과 그 아이들을 통해서 몇개를 뒤집었는지 (flip_count[i]) 
  }
 
 
@@ -703,7 +703,7 @@ int main(int argc, char *argv[]) {
 		count_turn ++;
 		num_white = count_num(board, 'W');
 		num_black = count_num(board, 'B');
-	} while ((num_white < 17 && num_black <17 ) && (num_white<17 && num_black != 0)  );
+	} while ((num_white < 17 && num_black <17 ) && (num_white<17 && num_black != 0) );
 	
 	
 	print_board(board);
