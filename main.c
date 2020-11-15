@@ -8,13 +8,13 @@
 #define TRUE 1
 #define FALSE 0
 
-
-#define B "X"
-#define W "O"
-
-int move[ROW][COLUMN]; 
+int move[ROW][COLUMN] = {0};
 int now_ROW;
 int now_COLUMN;
+char board[ROW][COLUMN];
+int directions[8] = {0,0,0,0,0,0,0,0};
+int flip_count[8] = {0,0,0,0,0,0,0,0}; //뒤집은 개수 
+
 
 void initial_board(char board[ROW][COLUMN])
 {
@@ -76,80 +76,62 @@ int count_num(char board[ROW][COLUMN], char c)
 	}
 	return count;
 }
+// 입력하라고 명령하고 맞는 입력인지 확인하자. 
 
-
-int valid_move(char board[ROW][COLUMN], int move[][SIZE], char player )
+int valid_move(char board[ROW][COLUMN], int move[][SIZE], char player, int row, int column )
 {
-	int delta_row = 0;
-	int delta_column = 0;
-	int row = 0;
-	int column = 0;
-	int x = 0;
-	int y = 0;
-	int count_move = 0;
+	int cnt = 0;
+	char othello_board2[36] = 
+	{ ' ', ' ', ' ', ' ', ' ', ' ', 
+      ' ', ' ', ' ', ' ', ' ', ' ', 
+      ' ', ' ', ' ', ' ', ' ', ' ', 
+      ' ', ' ', ' ', ' ', ' ', ' ', 
+      ' ', ' ', ' ', ' ', ' ', ' ', 
+      ' ', ' ', ' ', ' ', ' ', ' '};
+
+	int i;
+	int row_, column_;
 	
-	char opponent = (player == 'W')? 'B':'W';
-	
-	for(row = 0; row < ROW; row++ )
+	for(row_ = 0; row_ < ROW; row_++ )
 	{
-		for (column = 0; column < COLUMN; column++)
+		for ( column_ = 0; column_ < COLUMN; column_++)
 		{
-			move[row][column] = 0;
-		}
-	} 
-	
-	for(row = 0; row < ROW; row++ )
-	{
-		for (column = 0; column < COLUMN; column++)
-		{
-			if (board[row][column] != ' ')
-			       continue;
-			
-			for (delta_row = -1 ; delta_row <=1 ; delta_row++ )
-			{
-				for(delta_column = -1; delta_column<=1 ; delta_column ++ )
-				{
-					if (row + delta_row < 0 || row + delta_row >= SIZE ||
-					    column + delta_column <0 || column + delta_column >= SIZE ||
-						  (delta_row == 0 && delta_column == 0) )
-						
-						continue;
-					
-					if (board[row + delta_row][column + delta_column] == opponent )
-					{
-						x = row + delta_row;
-						y = column + delta_column;
-						
-						
-						for (;;)
-						{
-							x += delta_row;
-							y += delta_column;
-							
-							if (x < 0 || x >= SIZE || y < 0 || y >= SIZE )
-							    break;
-							    
-							if (board[x][y] == ' ')
-							      break;
-							      
-							if (board[x][y] == player)
-							{
-								move[row][column] = 1;
-								count_move++;
-								break;
-							 	
-							}	     
-						}
-					}
-					
-					
-				}
-			}       
-		}
 		
-	 return count_move;
+			othello_board2[cnt] = board[row_][column_];
+			printf("%d %c\n", cnt, othello_board2[cnt]); 
+            cnt++; 
+        
+		}
 	} 
 	
+	for ( i = 0; i < 36; i++)
+   {
+      if (i % 6 == 0)
+      {
+         printf("\n ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n|");
+      }
+      printf(" %c ", othello_board2[i]);
+      printf("|");
+
+   }
+   printf("\n ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
+   
+   int index = (row * 6) + column;
+   
+   if ( player == 'W' )
+   {
+   	if (othello_board2[index - 9] == 'B')
+	   {
+	   	int temp_index = index - 9;
+	   	if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
+		   || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
+	   	for (i = )
+	   }
+   		directions[0] = 1;
+   }
+   
+   [index + ]
+
 	
 }
 
@@ -168,7 +150,8 @@ void input_value(char board[ROW][COLUMN], int counter )
 		printf("put a new othello(such as 4 5): ");
 		scanf("%d %d", &row, &column);
 		
-		if (valid_move(board, move , player) == 0 )
+		
+		if (valid_move(board, move , player, row, column) == 0 )
 		   break;
 		else (printf("Not a valid move!\n"));
 	}	
@@ -224,16 +207,7 @@ void input_value(char board[ROW][COLUMN], int counter )
     }
  }
 
-void is_Game_End()  //게임이 끝나는 조건 확인하는 함수 
-{
-	
-	
-}
 
-void flip_result()
-{
-	
-}
 
 void check_result(int white, int black) 
 {
@@ -249,19 +223,27 @@ int main(int argc, char *argv[]) {
 	char board[ROW][COLUMN];
 	int count_turn = 1; 
 	
+	int move[ROW][COLUMN] = {0};
+	
 	initial_board(board); // 게임초기화 
 
 	int num_white = count_num(board, 'W');
 	int num_black = count_num(board, 'B');
-	
+		
+		
+		
 	do 
 	{
-		print_board(board);   // 보드판 출력 
+		directions[8] = {0,0,0,0,0,0,0,0};
+		flip_count[8] = {0,0,0,0,0,0,0,0};
+		
+	    print_board(board);   // 보드판 출력 
 		print_status(num_white, num_black, count_turn );
+		
 		input_value(board, count_turn);
-		
-		
 		flip_pieces(board, count_turn);
+		
+		
 		count_turn ++;
 		num_white = count_num(board, 'W');
 		num_black = count_num(board, 'B');
