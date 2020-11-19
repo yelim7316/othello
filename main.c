@@ -13,8 +13,7 @@ int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
 int directions[8] = {0,0,0,0,0,0,0,0};      // 왼쪽 위 대각, 위, 오른쪽 위 대각 
-int flip_count[8] = {0,0,0,0,0,0,0,0}; //뒤집은 개수 
-
+int flip_count[8] = {0,0,0,0,0,0,0,0};   //뒤집은 개수 
 
 void initial_board(char board[ROW][COLUMN]) // 보드판 초기화 
 {
@@ -107,414 +106,449 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
    
    if ( player == 'W' )
    { 
-         if ((row != 0 || column != 0) && othello_board2[index - 7] == 'B') // 왼쪽 대각선 
-         {
+        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'B') // 왼쪽 대각선 
+        {
             int f_cnt_leftup = 0;        // 왼쪽 대각선에 있는 알을 뒤집은 개수를 저장할 변수 
             int temp_index = index - 7;  // 왼쪽 대각선에 있는 알을 확인하기 위한 변수 
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면 
-                f_cnt_leftup += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-                directions[0] = 1;
-                flip_count[0] = f_cnt_leftup;
-                break;
-            }   
-            
-            // int temp_row = temp_index / 6;
-            // int temp_column = temp_index % 6; 
+         	while(TRUE)
+         	{
+            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면 
+                	f_cnt_leftup += 1;
+             	else if (othello_board2[temp_index] == ' ')
+	                break;
+    	        else if (othello_board2[temp_index] == 'W')
+        	    {
+            	    directions[0] = 1;
+                	flip_count[0] = f_cnt_leftup;
+                	break;
+            	}  
+            	
+            	int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6; 
 
-             if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
-            || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
-                break;
-             
-             temp_index -= 7;
-         }     
-       }   
+             	if (temp_row == 0 || temp_column == 0)
+                	break;
+             	else
+             		temp_index -= 7;
+         	}     
+        }
       //---------------------------------------------------------------------------
-      if ( row != 0 && othello_board2[index - 6] == 'B') // 위 쪽 
-         {
+      	if ( row != 0 && othello_board2[index - 6] == 'B') // 위 쪽 
+       {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_up += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[1] = 1;
-                flip_count[1] = f_cnt_up;
-                break;
-            }
-
-             if  (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5)
-                break;
-             
-             temp_index -= 6;
-         }      
+         	while(TRUE)
+         	{
+            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+                	f_cnt_up += 1;
+             	else if (othello_board2[temp_index] == ' ')
+                	break;
+             	else if (othello_board2[temp_index] == 'W')
+            	{
+               		directions[1] = 1;
+                	flip_count[1] = f_cnt_up;
+                	break;
+            	}
+            
+				int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	if (temp_row == 0)
+                	break;
+             	else
+             		temp_index -= 6;
+        	}      
        }   
        
 	   //---------------------------------------------------------------------------
-      if ((row != 0 || column != 5) && othello_board2[index - 5] == 'B') // 오른쪽 위 
-         {
+      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'B') // 오른쪽 위 
+    	{
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_rightup += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[2] = 1;
-                flip_count[2] = f_cnt_rightup;
-                break;
-            }
+         	while(TRUE)
+         	{
+	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+    	            f_cnt_rightup += 1;
+	            else if (othello_board2[temp_index] == ' ')
+		            break;
+	            else if (othello_board2[temp_index] == 'W')
+        	    {
+            		directions[2] = 1;
+                	flip_count[2] = f_cnt_rightup;
+                	break;
+            	}
+				int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
 
-            if ( temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5 ||
-               temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35 )
-               break;
-             
-             temp_index -= 5;
+            	if (temp_row == 0 || temp_column == 5)
+               		break;
+            	else
+            		temp_index -= 5;
          }      
        }   
       
       //---------------------------------------------------------------------------
       
-      if ( column != 0 && othello_board2[index - 1] == 'B') // 왼쪽 
+      	if ( column != 0 && othello_board2[index - 1] == 'B') // 왼쪽 
          {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_left += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-             {
-                directions[3] = 1;
-                flip_count[3] = f_cnt_left;
-                break;
-            }
-             
-             if (temp_index == 0 || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
-                break;
-             
-             temp_index -= 1;
+         	while(TRUE)
+         	{
+            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+                	f_cnt_left += 1;
+             	else if (othello_board2[temp_index] == ' ')
+	                break;
+    	        else if (othello_board2[temp_index] == 'W')
+	            {
+    	            directions[3] = 1;
+        	        flip_count[3] = f_cnt_left;
+            	    break;
+            	}
+            	
+             	int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+            	if (temp_column == 0)
+                	break;
+             	else 
+             		temp_index -= 1;
          }      
        }
         
 	 //---------------------------------------------------------------------------
-      if ( column != 5 && othello_board2[index + 1] == 'B') // 오른쪽 
-         {
+      	if ( column != 5 && othello_board2[index + 1] == 'B') // 오른쪽 
+        {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_right += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[4] = 1;
-                flip_count[4] = f_cnt_right;
-                break;
-            }
-                
-             if (temp_index == 5 || temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35)
-                break;
-             
-             temp_index += 1;
+         	while(TRUE)
+         	{
+            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	                f_cnt_right += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'W')
+	            {
+	            	directions[4] = 1;
+	                flip_count[4] = f_cnt_right;
+	                break;
+	            }
+	            
+                int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+             	if (temp_column == 5)
+                	break;
+             	else
+             		temp_index += 1;
          }      
        }
      //---------------------------------------------------------------------------
-      if ( (column != 0 || row != 5) && othello_board2[index + 5] == 'B') // 왼쪽 아래 
-         {
+      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'B') // 왼쪽 아래 
+        {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_leftdown += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[5] = 1;
-                flip_count[5] = f_cnt_leftdown;
-                break;
-            }
-             
-             if (temp_index == 0 || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30 ||
-                temp_index == 31 ||temp_index == 32 ||temp_index == 33 ||temp_index == 34 ||temp_index == 35 )
-                break;
-             
-             temp_index += 5;
-         }      
-       }
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	          		f_cnt_leftdown += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'W')
+	            {
+	            	directions[5] = 1;
+	                flip_count[5] = f_cnt_leftdown;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+	            if (temp_row == 5 || temp_column == 0)
+	                break;
+	            else
+	            	temp_index += 5;
+	        }      
+	    }
        //---------------------------------------------------------------------------
-      if ( row != 5 && othello_board2[index + 6] == 'B') // 아래 
-         {
+      	if (row != 5 && othello_board2[index + 6] == 'B') // 아래 
+        {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_down += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[6] = 1;
-                flip_count[6] = f_cnt_down;
-                break;
-            }
-             
-             if ( temp_index == 30 || temp_index == 31 || temp_index == 32 || temp_index == 33 || temp_index == 34 || temp_index == 35 )
-                break;
-             
-             temp_index += 6;
-         }      
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	                f_cnt_down += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'W')
+	            {
+	                directions[6] = 1;
+	                flip_count[6] = f_cnt_down;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+	            if (temp_row == 5)
+	         	   	break;
+	            else 
+	            	temp_index += 6;
+	        }      
        }
        
       //---------------------------------------------------------------------------
-      if ( (column != 5 || row != 5) && othello_board2[index + 7] == 'B') // 오른쪽 아래 
-         {
+      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'B') // 오른쪽 아래 
+        {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
-                f_cnt_rightdown += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'W')
-            {
-               directions[7] = 1;
-                flip_count[7] = f_cnt_rightdown;
-                break;
-            }
-                
-             if (temp_index == 5 || temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 30 ||
-                temp_index == 31 ||temp_index == 32 ||temp_index == 33 ||temp_index == 34 ||temp_index == 35 )
-                break;
-             
-             temp_index += 7;
-         }      
-       }   
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	                f_cnt_rightdown += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'W')
+	            {
+	                directions[7] = 1;
+	                flip_count[7] = f_cnt_rightdown;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+				 
+	            if (temp_row == 5 || temp_column == 5)
+	                break;
+	            else
+	            	temp_index += 7;
+	        }      
+        }   
    }
    
    /*************************************** player 가 Black 일 때 *********************************************/
    if ( player == 'B' )
    {
       
-         if ((row != 0 || column != 0) && othello_board2[index - 7] == 'W') // 왼쪽 대각선 
-         {
+        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'W') // 왼쪽 대각선 
+        {
             int f_cnt_leftup = 0;
             int temp_index = index - 7;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_leftup += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[0] = 1;
-                flip_count[0] = f_cnt_leftup;
-                break;
-            }   
-             
-             if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
-            || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
-                break;
-             
-             temp_index -= 7;
-         }      
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_leftup += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[0] = 1;
+	                flip_count[0] = f_cnt_leftup;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+	            int temp_column = temp_index % 6;
+	            
+	            if (temp_row == 0 || temp_column == 0)
+	                break;
+	            else
+	             	temp_index -= 7;
+	        }      
        }   
       //---------------------------------------------------------------------------
-      if (row != 0 && othello_board2[index - 6] == 'W') // 위 쪽 
-         {
+      	if (row != 0 && othello_board2[index - 6] == 'W') // 위 쪽 
+        {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_up += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[1] = 1;
-                flip_count[1] = f_cnt_up;
-                break;
-            }
-                
-             if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5)
-                break;
-             
-             temp_index -= 6;
-         }      
-       } 
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_up += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[1] = 1;
+	                flip_count[1] = f_cnt_up;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+	            int temp_column = temp_index % 6;
+	            
+	            if (temp_row == 0)
+	                break;
+	            else
+	             	temp_index -= 6;
+	        }      
+        } 
 	     
      //---------------------------------------------------------------------------
-      if ((row != 0 || column != 5) && othello_board2[index - 5] == 'W') // 오른쪽 위 
-         {
+      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'W') // 오른쪽 위 
+        {
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_rightup += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[2] = 1;
-                flip_count[2] = f_cnt_rightup;
-                break;
-            }
-                
-             if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5 ||
-                temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35 )
-                break;
-             
-             temp_index -= 5;
-         }      
-       }   
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_rightup += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[2] = 1;
+	                flip_count[2] = f_cnt_rightup;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+	            if (temp_row == 0 || temp_column == 5)
+	                break;
+	            else
+	            	temp_index -= 5;
+	        }      
+        }   
       
       //---------------------------------------------------------------------------
       
-      if ( column != 0 && othello_board2[index - 1] == 'W') // 왼쪽 
-         {
+      	if (column != 0 && othello_board2[index - 1] == 'W') // 왼쪽 
+        {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_left += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-             {
-                directions[3] = 1;
-                flip_count[3] = f_cnt_left;
-                break;
-            }
-             
-             if (temp_index == 0 || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
-                break;
-             
-             temp_index -= 1;
-         }      
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_left += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[3] = 1;
+	                flip_count[3] = f_cnt_left;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+	            int temp_column = temp_index % 6;
+	            
+	            if (temp_column == 0)
+	                break;
+	            else
+	            	temp_index -= 1;
+	        }      
        }
       
       //---------------------------------------------------------------------------
-      if ( column != 5 && othello_board2[index + 1] == 'W') // 오른쪽 
-         {
+      	if (column != 5 && othello_board2[index + 1] == 'W') // 오른쪽 
+        {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_right += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[4] = 1;
-                flip_count[4] = f_cnt_right;
-                break;
-            }
-                
-             if (temp_index == 5 || temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35)
-                break;
-             
-             temp_index += 1;
-         }      
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_right += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[4] = 1;
+	                flip_count[4] = f_cnt_right;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;    
+            	
+	            if (temp_column == 5)
+	                break;
+	            else 
+	            	temp_index += 1;
+	        }      
        }
        
        //--------------------------------------------------------------------------- 
-      if ((row != 5 || column != 0) && othello_board2[index + 5] == 'W') // 왼쪽 아래 
-         {
+      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'W') // 왼쪽 아래 
+        {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_leftdown += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[5] = 1;
-                flip_count[5] = f_cnt_leftdown;
-                break;
-            }
-             
-             if (temp_index == 0 || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30 ||
-                temp_index == 31 ||temp_index == 32 ||temp_index == 33 ||temp_index == 34 ||temp_index == 35 )
-                break;
-             
-             temp_index += 5;
-         }      
-       }
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_leftdown += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[5] = 1;
+	                flip_count[5] = f_cnt_leftdown;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;
+            	
+	            if (temp_row == 5 || temp_column == 0)
+	                break;
+	            else
+	            	temp_index += 5;
+	        }      
+       	}
     //---------------------------------------------------------------------------
-      if (row != 5 && othello_board2[index + 6] == 'W') // 아래 
-         {
+      	if (row != 5 && othello_board2[index + 6] == 'W') // 아래 
+        {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_down += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[6] = 1;
-                flip_count[6] = f_cnt_down;
-                break;
-            }
-                
-             if ( temp_index == 30 || temp_index == 31 || temp_index == 32 || temp_index == 33 || temp_index == 34 || temp_index == 35 )
-                break;
-             
-             temp_index += 6;
-         }      
-       }
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_down += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	                directions[6] = 1;
+	                flip_count[6] = f_cnt_down;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+            	int temp_column = temp_index % 6;  
+            	
+	            if (temp_row == 5)
+	                break;
+	            else
+	            	temp_index += 6;
+	        }      
+        }
       //--------------------------------------------------------------------------- 
-      if ((row != 5 || column != 5) && othello_board2[index + 7] == 'W') // 오른쪽 아래 
-         {
+      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'W') // 오른쪽 아래 
+        {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-         while(TRUE)
-         {
-            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
-                f_cnt_rightdown += 1;
-             else if (othello_board2[temp_index] == ' ')
-                break;
-             else if (othello_board2[temp_index] == 'B')
-            {
-               directions[7] = 1;
-                flip_count[7] = f_cnt_rightdown;
-                break;
-            }
-                
-             if (temp_index == 5 || temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 30 ||
-                temp_index == 31 ||temp_index == 32 ||temp_index == 33 ||temp_index == 34 ||temp_index == 35 )
-                break;
-             
-             temp_index += 7;
-         }      
+	        while(TRUE)
+	        {
+	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	                f_cnt_rightdown += 1;
+	            else if (othello_board2[temp_index] == ' ')
+	                break;
+	            else if (othello_board2[temp_index] == 'B')
+	            {
+	               directions[7] = 1;
+	                flip_count[7] = f_cnt_rightdown;
+	                break;
+	            }
+	            
+	            int temp_row = temp_index / 6;
+	            int temp_column = temp_index % 6;
+	            
+	            if (temp_row == 5 || temp_column == 5)
+	                break;
+	            else
+	            	temp_index += 7;
+	        }      
        }   
    }
    
@@ -574,8 +608,8 @@ void input_value(char board[ROW][COLUMN], int counter )
                 continue;
             if (board[now_ROW + i][now_COLUMN + j] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
             {
-            	//If (now_ROW + i >=0 && now_ROW < ROW && NOW_COLUMN +j >=0 && now_COLUMN+j < COLUMN && board[now_ROW+i][now_COLUMN+j] == to_Flip)
-            	// (5,3)이고, i=1, j= -1일때 now_ROW+I = 6  
+            	//if (now_ROW + i >=0 && now_ROW < ROW && NOW_COLUMN +j >=0 && now_COLUMN+j < COLUMN && board[now_ROW+i][now_COLUMN+j] == to_Flip)
+            	// (5,3)이고, i=1, j= -1일때 now_ROW + i = 6  
                 
 				int flag = FALSE;
                 int x = now_ROW + i;
@@ -720,8 +754,8 @@ int is_game_end (char _player)   // 게임이 끝났는지 확인
    
 } 
 
-/*  is_game_end가 잘 작동하는지 확인하기 위한 함수 
- void check_board(char board[ROW][COLUMN])
+// is_game_end가 잘 작동하는지 확인하기 위한 함수 
+/*void check_board(char board[ROW][COLUMN])
 {
 	int i,j;
 	for(i = 0; i<6; i++)
@@ -741,9 +775,8 @@ int is_game_end (char _player)   // 게임이 끝났는지 확인
 			
 		}
 	}
-} 
+}
 */
-
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
