@@ -9,15 +9,14 @@
 #define TRUE 1
 #define FALSE 0
 
-int move[ROW][COLUMN] = {0};
 int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
 int directions[8] = {0,0,0,0,0,0,0,0};      // 왼쪽 위 대각, 위, 오른쪽 위 대각 
 int flip_count[8] = {0,0,0,0,0,0,0,0}; //뒤집은 개수 
-int check_directions[8] = {0,};
 
-void initial_board(char board[ROW][COLUMN])
+
+void initial_board(char board[ROW][COLUMN]) // 보드판 초기화 
 {
    int i,j;
    for (i=0; i<ROW; i++)
@@ -35,7 +34,7 @@ void initial_board(char board[ROW][COLUMN])
 }
 
 
-void print_board(char board[ROW][COLUMN])
+void print_board(char board[ROW][COLUMN])   // 보드판 출력 
 {
    
    int i, j;
@@ -55,7 +54,7 @@ void print_board(char board[ROW][COLUMN])
    }
 }
 
-void print_status(int white, int black, int counter)
+void print_status(int white, int black, int counter)   // 현재 상태 나타내기 
 {
    char *current_player = (counter % 2 == 0)? "Black":"White";
    printf("STATUS - WHITE: %d, BLACK: %d\n", white, black);
@@ -63,7 +62,7 @@ void print_status(int white, int black, int counter)
 }
 
 
-int count_num(char board[ROW][COLUMN], char c)
+int count_num(char board[ROW][COLUMN], char c)  // 알 개수 세기 
 {
    int i, j;
    int count=0;
@@ -77,9 +76,9 @@ int count_num(char board[ROW][COLUMN], char c)
    }
    return count;
 }
-// 입력하라고 명령하고 맞는 입력인지 확인하자. 
 
-int valid_move(char player, int row, int column )   
+
+int valid_move(char player, int row, int column )  // 올바른 입력인지 확인   
 {
    int cnt = 0;
    char othello_board2[36] = 
@@ -93,38 +92,25 @@ int valid_move(char player, int row, int column )
    int i;
    int row_, column_;
    
-   for(row_ = 0; row_ < ROW; row_++ )  // 2차원 배열의 board를 1차원의 othello_board2 변수에 저장 
+   for(row_ = 0; row_ < ROW; row_++ )  // 2차원 배열의 board를 1차원의 othello_board2 배열에 저장 
    {
       for ( column_ = 0; column_ < COLUMN; column_++)
       {
       
          othello_board2[cnt] = board[row_][column_];
-      //   printf("%d %c\n", cnt, othello_board2[cnt]); 
-            cnt++; 
+         cnt++; 
         
       }
    } 
-   
-/*   for ( i = 0; i < 36; i++)
-   {
-      if (i % 6 == 0)
-      {
-         printf("\n ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n|");
-      }
-      printf(" %c ", othello_board2[i]);
-      printf("|");
-
-   }
-   printf("\n ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-*/   
-   int index = (row * 6) + column;
+     
+   int index = (row * 6) + column;  // row와 column을 통해 1차원의 index 변수에 저장 
    
    if ( player == 'W' )
    { 
          if ((row != 0 || column != 0) && othello_board2[index - 7] == 'B') // 왼쪽 대각선 
          {
-            int f_cnt_leftup = 0;
-            int temp_index = index - 7;
+            int f_cnt_leftup = 0;        // 왼쪽 대각선에 있는 알을 뒤집은 개수를 저장할 변수 
+            int temp_index = index - 7;  // 왼쪽 대각선에 있는 알을 확인하기 위한 변수 
          while(TRUE)
          {
             if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면 
@@ -137,10 +123,9 @@ int valid_move(char player, int row, int column )
                 flip_count[0] = f_cnt_leftup;
                 break;
             }   
-             int temp_row = temp_index / 6;
-             int temp_column = temp_index % 6;
-             if ((temp_row != 0 || temp_column != 0) && (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
-            || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30))
+
+             if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
+            || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
                 break;
              
              temp_index -= 7;
@@ -163,15 +148,15 @@ int valid_move(char player, int row, int column )
                 flip_count[1] = f_cnt_up;
                 break;
             }
-            int temp_row = temp_index / 6;
-             int temp_column = temp_index % 6;
-             if ((temp_row != 0) && (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5)
+
+             if  (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5)
                 break;
              
              temp_index -= 6;
          }      
        }   
-      
+       
+	   //---------------------------------------------------------------------------
       if ((row != 0 || column != 5) && othello_board2[index - 5] == 'B') // 오른쪽 위 
          {
             int f_cnt_rightup = 0;
@@ -188,16 +173,14 @@ int valid_move(char player, int row, int column )
                 flip_count[2] = f_cnt_rightup;
                 break;
             }
-            int temp_row = temp_index / 6;
-            int temp_column = temp_index % 6;
-            if ((temp_row != 0 || temp_column != 0) && (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5 ||
-               temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35 ))
+
+            if ( temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5 ||
+               temp_index == 11 || temp_index == 17 || temp_index == 23 || temp_index == 29 || temp_index == 35 )
                break;
              
              temp_index -= 5;
          }      
        }   
-      
       
       //---------------------------------------------------------------------------
       
@@ -224,7 +207,8 @@ int valid_move(char player, int row, int column )
              temp_index -= 1;
          }      
        }
-      
+        
+	 //---------------------------------------------------------------------------
       if ( column != 5 && othello_board2[index + 1] == 'B') // 오른쪽 
          {
             int f_cnt_right = 0;
@@ -248,7 +232,7 @@ int valid_move(char player, int row, int column )
              temp_index += 1;
          }      
        }
-      
+     //---------------------------------------------------------------------------
       if ( (column != 0 || row != 5) && othello_board2[index + 5] == 'B') // 왼쪽 아래 
          {
             int f_cnt_leftdown = 0;
@@ -273,7 +257,7 @@ int valid_move(char player, int row, int column )
              temp_index += 5;
          }      
        }
-      
+       //---------------------------------------------------------------------------
       if ( row != 5 && othello_board2[index + 6] == 'B') // 아래 
          {
             int f_cnt_down = 0;
@@ -297,7 +281,8 @@ int valid_move(char player, int row, int column )
              temp_index += 6;
          }      
        }
-      
+       
+      //---------------------------------------------------------------------------
       if ( (column != 5 || row != 5) && othello_board2[index + 7] == 'B') // 오른쪽 아래 
          {
             int f_cnt_rightdown = 0;
@@ -324,6 +309,7 @@ int valid_move(char player, int row, int column )
        }   
    }
    
+   /*************************************** player 가 Black 일 때 *********************************************/
    if ( player == 'B' )
    {
       
@@ -374,8 +360,9 @@ int valid_move(char player, int row, int column )
              
              temp_index -= 6;
          }      
-       }   
-      
+       } 
+	     
+     //---------------------------------------------------------------------------
       if ((row != 0 || column != 5) && othello_board2[index - 5] == 'W') // 오른쪽 위 
          {
             int f_cnt_rightup = 0;
@@ -400,7 +387,6 @@ int valid_move(char player, int row, int column )
              temp_index -= 5;
          }      
        }   
-      
       
       //---------------------------------------------------------------------------
       
@@ -428,6 +414,7 @@ int valid_move(char player, int row, int column )
          }      
        }
       
+      //---------------------------------------------------------------------------
       if ( column != 5 && othello_board2[index + 1] == 'W') // 오른쪽 
          {
             int f_cnt_right = 0;
@@ -451,7 +438,8 @@ int valid_move(char player, int row, int column )
              temp_index += 1;
          }      
        }
-      
+       
+       //--------------------------------------------------------------------------- 
       if ((row != 5 || column != 0) && othello_board2[index + 5] == 'W') // 왼쪽 아래 
          {
             int f_cnt_leftdown = 0;
@@ -476,7 +464,7 @@ int valid_move(char player, int row, int column )
              temp_index += 5;
          }      
        }
-      
+    //---------------------------------------------------------------------------
       if (row != 5 && othello_board2[index + 6] == 'W') // 아래 
          {
             int f_cnt_down = 0;
@@ -500,7 +488,7 @@ int valid_move(char player, int row, int column )
              temp_index += 6;
          }      
        }
-      
+      //--------------------------------------------------------------------------- 
       if ((row != 5 || column != 5) && othello_board2[index + 7] == 'W') // 오른쪽 아래 
          {
             int f_cnt_rightdown = 0;
@@ -528,7 +516,7 @@ int valid_move(char player, int row, int column )
    }
    
    
-   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 
+   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 , 1이면 valid move이지만 0 이면 invalid move !!!! 
    {
          if (directions[i] == 1)
          {
@@ -563,17 +551,17 @@ void input_value(char board[ROW][COLUMN], int counter )
       else (printf("Not a valid move!\n"));
    
     }
-   now_ROW= row;
+    now_ROW= row;
     now_COLUMN= column;
     board[row][column] = (counter %2 == 0)? 'B':'W';
 }
 
 
 
- void flip_pieces(char board[ROW][COLUMN], int counter) // Flips any of the second player's pieces that are between the first player's pieces
+ void flip_pieces(char board[ROW][COLUMN], int counter) // 알 뒤집기 
  {
-    int i,j;
-     char border = counter % 2 == 0 ? 'B':'W';
+     int i,j;
+     char do_Flip = counter % 2 == 0 ? 'B':'W';
      char to_Flip = counter % 2 == 1 ? 'B':'W';
      for ( i = -1; i <= 1; i++)
      {
@@ -581,14 +569,14 @@ void input_value(char board[ROW][COLUMN], int counter )
         {
             if (i == 0 && j == 0)
                 continue;
-            if (board[now_ROW + i][now_COLUMN + j] == to_Flip)
+            if (board[now_ROW + i][now_COLUMN + j] == to_Flip) // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
             {
                 int flag = FALSE;
                 int x = now_ROW + i;
                 int y = now_COLUMN + j;
                 while (x <= 7 && x >= 0 && y <= 7 && y >= 0)
                 {
-                    if (board[x][y] == border)
+                    if (board[x][y] == do_Flip )
                     {
                         flag = TRUE;
                         break;
@@ -598,13 +586,14 @@ void input_value(char board[ROW][COLUMN], int counter )
                     x += i;
                     y += j;
                 }
+                
                 x = now_ROW + i;
                 y = now_COLUMN + j;
                 if (flag)
                 {
-                    while (board[x][y] != border)
+                    while (board[x][y] != do_Flip )
                     {
-                        board[x][y] = border;
+                        board[x][y] = do_Flip;
                         x += i;
                         y += j;
                     }
@@ -647,7 +636,7 @@ void input_value(char board[ROW][COLUMN], int counter )
        printf("%d  ", flip_count[m]);
    }
    printf("\n");
-   switch(border)
+   switch(do_Flip)
    {
       case 'B':
          printf("Black ");
@@ -662,7 +651,7 @@ void input_value(char board[ROW][COLUMN], int counter )
 
 
 
-void check_result(int white, int black) 
+void check_result(int white, int black)   // 결과 출력 
 {
    char *winner = (white > black)? "White" : "Black";
    printf("RESULT- WHITE: %d, BLACK: %d", white, black);
@@ -670,13 +659,13 @@ void check_result(int white, int black)
 }
 
 
-int is_game_end (char _player)
+int is_game_end (char _player)   // 게임이 끝났는지 확인 
 {
    int blank_check = 0;
    int i,j;
    int m,n;
-   char temp_same_side = ' '; //W
-   for (m = 0; m < 6; m++)
+   char temp_same_side = ' '; 
+   for (m = 0; m < 6; m++)  // 보드판이 하나의 색으로 되어있는지 확인 
    {
       for (n = 0; n< 6; n++)
       {
@@ -694,11 +683,11 @@ int is_game_end (char _player)
       }
    }
    
-   for (m = 0; m < 6; m++)
+   for (m = 0; m < 6; m++)  // 모든 칸이 채워져있는지 확인 
    {
       for (n = 0; n< 6; n++)
       {
-         if(board[m][n] == ' ') // 모든 칸이 빈칸이 아닐때 b_check =1  
+         if(board[m][n] == ' ') // 모든 칸이 빈칸이 아닐때 blank_check = 1  
                blank_check++;
       }
    }
@@ -725,6 +714,7 @@ int is_game_end (char _player)
    
 } 
 
+/*  is_game_end가 잘 작동하는지 확인하기 위한 함수 
  void check_board(char board[ROW][COLUMN])
 {
 	int i,j;
@@ -745,8 +735,8 @@ int is_game_end (char _player)
 			
 		}
 	}
-}
-
+} 
+*/
 
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
@@ -756,8 +746,6 @@ int main(int argc, char *argv[]) {
    int count_turn = 1; 
    int game_ing = 1;
 
-     
-   
 	//check_board(board);
 	initial_board(board); // 게임초기화 
 
