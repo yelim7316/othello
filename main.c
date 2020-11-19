@@ -58,7 +58,7 @@ void print_status(int white, int black, int counter)   // 현재 상태 나타내기
 {
    char *current_player = (counter % 2 == 0)? "Black":"White";
    printf("STATUS - WHITE: %d, BLACK: %d\n", white, black);
-   printf("TURN %d: %s player's turn.\n", counter, current_player);
+   printf("%d TURN: %s player's turn.\n", counter, current_player);
 }
 
 
@@ -123,6 +123,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
                 flip_count[0] = f_cnt_leftup;
                 break;
             }   
+            
+            // int temp_row = temp_index / 6;
+            // int temp_column = temp_index % 6; 
 
              if (temp_index == 0 || temp_index == 1 || temp_index == 2 || temp_index == 3 || temp_index == 4 || temp_index == 5
             || temp_index == 6 || temp_index == 12 || temp_index == 18 || temp_index == 24 || temp_index == 30)
@@ -569,12 +572,15 @@ void input_value(char board[ROW][COLUMN], int counter )
         {
             if (i == 0 && j == 0)
                 continue;
-            if (board[now_ROW + i][now_COLUMN + j] == to_Flip) // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
+            if (board[now_ROW + i][now_COLUMN + j] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
             {
-                int flag = FALSE;
+            	//If (now_ROW + i >=0 && now_ROW < ROW && NOW_COLUMN +j >=0 && now_COLUMN+j < COLUMN && board[now_ROW+i][now_COLUMN+j] == to_Flip)
+            	// (5,3)이고, i=1, j= -1일때 now_ROW+I = 6  
+                
+				int flag = FALSE;
                 int x = now_ROW + i;
                 int y = now_COLUMN + j;
-                while (x <= 7 && x >= 0 && y <= 7 && y >= 0)
+                while (x < ROW && x >= 0 && y < COLUMN && y >= 0) // while (x < =7 && x>=0 && y<=7 && y>=0) ---5로 바꾸거나 ROW & COLUMN 매크로 쓰기 
                 {
                     if (board[x][y] == do_Flip )
                     {
