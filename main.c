@@ -192,7 +192,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
          {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-         	while(TRUE)
+        	while(TRUE)
          	{
             	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
                 	f_cnt_left += 1;
@@ -212,7 +212,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
                 	break;
              	else 
              		temp_index -= 1;
-         }      
+        	}      
        }
         
 	 //---------------------------------------------------------------------------
@@ -240,7 +240,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
                 	break;
              	else
              		temp_index += 1;
-         }      
+        	}      
        }
      //---------------------------------------------------------------------------
       	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'B') // 왼쪽 아래 
@@ -248,8 +248,8 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
 	        while(TRUE)
-	        {
-	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	    	{
+	        	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
 	          		f_cnt_leftdown += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -355,7 +355,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	            else
 	             	temp_index -= 7;
 	        }      
-       }   
+    	}   
       //---------------------------------------------------------------------------
       	if (row != 0 && othello_board2[index - 6] == 'W') // 위 쪽 
         {
@@ -556,9 +556,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
    for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 , 1이면 valid move이지만 0 이면 invalid move !!!! 
    {
          if (directions[i] == 1)
-         {
+    	{
             return 1;
-      }
+    	}
    }
    return 0;
 }
@@ -588,6 +588,7 @@ void input_value(char board[ROW][COLUMN], int counter )
       else (printf("Not a valid move!\n"));
    
     }
+    
     now_ROW= row;
     now_COLUMN= column;
     board[row][column] = (counter %2 == 0)? 'B':'W';
@@ -673,7 +674,7 @@ void input_value(char board[ROW][COLUMN], int counter )
              printf("SE: ");
              break;
       }
-       printf("%d  ", flip_count[m]);
+    	printf("%d  ", flip_count[m]);
    }
    printf("\n");
    switch(do_Flip)
