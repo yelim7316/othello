@@ -11,22 +11,23 @@ char board[ROW][COLUMN];   // 보드판
 extern directions[8];      // 왼쪽 위 대각, 위, 오른쪽 위 대각, 오른쪽, 오른쪽 아래 대각, 아래, 왼쪽 아래 대각, 왼쪽 - 8개 방향을 배열로 정의 
 extern flip_count[8];      //뒤집은 개수 
 
-void initial_board(char board[ROW][COLUMN]); // 보드판 초기화 
-void print_board(char board[ROW][COLUMN]);   // 보드판 출력 
+extern void initial_board(char board[ROW][COLUMN]); // 보드판 초기화 
 
-void print_status(int white, int black, int counter);   // 현재 상태 나타내는 함수 
+extern void print_board(char board[ROW][COLUMN]);   // 보드판 출력 
 
-int count_num(char board[ROW][COLUMN], char c);  // 알 개수를 세는 함수  
+extern void print_status(int white, int black, int counter);   // 현재 상태 나타내는 함수 
 
-int valid_move(char player, int row, int column );  // 올바른 입력인지 확인하는 함수   
+extern int count_num(char board[ROW][COLUMN], char c);  // 알 개수를 세는 함수  
 
-void input_value(char board[ROW][COLUMN], int counter ); // 알을 놓을 위치 입력하라고 명령하는 함수 
+extern int valid_move(char player, int row, int column );  // 올바른 입력인지 확인하는 함수   
 
-void flip_pieces(char board[ROW][COLUMN], int counter); // 알을 뒤집는 함수 
+extern void input_value(char board[ROW][COLUMN], int counter ); // 알을 놓을 위치 입력하라고 명령하는 함수 
 
-void check_result(int white, int black);  // 결과를 출력하는 함수 
+extern void flip_pieces(char board[ROW][COLUMN], int counter); // 알을 뒤집는 함수 
 
-int is_game_end (char _player);   // 게임이 끝났는지 확인하는 함수 
+extern void check_result(int white, int black);  // 결과를 출력하는 함수 
+
+extern int is_game_end (char _player);   // 게임이 끝났는지 확인하는 함수 
 
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */

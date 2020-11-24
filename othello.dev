@@ -101,7 +101,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=game_ing.c
+FileName=play_game.c
 CompileCpp=0
 Folder=
 Compile=1
