@@ -1,9 +1,9 @@
 #define ROW 6
 #define COLUMN 6
 
-char board[ROW][COLUMN];
+char board[ROW][COLUMN];         // board 변수 선언
 
-int is_game_end (char _player)   // 게임이 끝났는지 확인 
+int is_game_end (char _player)   // 게임이 끝났는지 확인하는 함수 
 {
    int blank_check = 0;
    int i,j;

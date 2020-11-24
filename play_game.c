@@ -10,7 +10,7 @@
 int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
-int directions[8] = {0,0,0,0,0,0,0,0};      // 왼쪽 위 대각, 위, 오른쪽 위 대각 
+int directions[8] = {0,0,0,0,0,0,0,0};     // 왼쪽 위 대각, 위, 오른쪽 위 대각, 오른쪽, 오른쪽 아래 대각, 아래, 왼쪽 아래 대각, 왼쪽 - 8개 방향을 배열로 정의 
 int flip_count[8] = {0,0,0,0,0,0,0,0};   //뒤집은 개수 
 
 int valid_move(char player, int row, int column )  // 올바른 입력인지 확인   
@@ -532,58 +532,77 @@ void input_value(char board[ROW][COLUMN], int counter )
 
 
 
- void flip_pieces(char board[ROW][COLUMN], int counter) // 알 뒤집기 
+ void flip_pieces(char board[ROW][COLUMN], int counter) // 알 뒤집는 함수 
  {
-     int i,j;
-     char do_Flip = counter % 2 == 0 ? 'B':'W';
-     char to_Flip = counter % 2 == 1 ? 'B':'W';
-     for ( i = -1; i <= 1; i++)
+     int m,n;         // for문 돌기 위한 변수 
+     
+	 char do_Flip;   // 뒤집기를 할 알의 저장 
+     
+     if (counter % 2 == 0)
+	 {
+	 	do_Flip = 'B';
+	 }
+	 else
+	 {
+	 	do_Flip = 'W';
+	 }
+	 
+	 char to_Flip;   // 뒤집힐 알 저장 
+	 if ( counter % 2 == 1)
+	 {
+	 	to_Flip = 'B';
+	 }
+	 else
+	 {
+	 	to_Flip = 'W';
+	 }
+	 
+	 
+     for (m = -1; m <= 1; m++)   // 내가 놓은 알로부터 8개 방향으로 for문을 돈다.  
      {
-        for ( j = -1; j <= 1; j++)
+        for (n = -1; n <= 1; n++)
         {
-            if (i == 0 && j == 0)
+            if (m == 0 && n == 0)   // 내가 놓은 알의 위치  
                 continue;
-            if (board[now_ROW + i][now_COLUMN + j] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
+            if (now_ROW + m >=0 && now_ROW + m < ROW && now_COLUMN +n >=0 && now_COLUMN + n < COLUMN && board[now_ROW+m][now_COLUMN+n] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
             {
-            	//if (now_ROW + i >=0 && now_ROW < ROW && NOW_COLUMN +j >=0 && now_COLUMN+j < COLUMN && board[now_ROW+i][now_COLUMN+j] == to_Flip)
-            	// (5,3)이고, i=1, j= -1일때 now_ROW + i = 6  
+                int R = now_ROW + m;       // 현재 row에서 8방향으로 돌면서 row의 위치를 R 에 저장 
+                int L = now_COLUMN + n;    // 현재 column에서 8방향으로 돌면서 column의 위치를 L 에 저장 
+                int flag = FALSE;
                 
-				int flag = FALSE;
-                int x = now_ROW + i;
-                int y = now_COLUMN + j;
-                while (x < ROW && x >= 0 && y < COLUMN && y >= 0) // while (x < =7 && x>=0 && y<=7 && y>=0) ---5로 바꾸거나 ROW & COLUMN 매크로 쓰기 
+				while (R < ROW && R >= 0 && L < COLUMN && L >= 0) 
                 {
-                    if (board[x][y] == do_Flip )
+                    if (board[R][L] == do_Flip )
                     {
                         flag = TRUE;
                         break;
                     }
-                    else if (board[x][y] == ' ')
+                    else if (board[R][L] == ' ')
                         break;
-                    x += i;
-                    y += j;
+                    R += m;
+                    L += n;
                 }
                 
-                x = now_ROW + i;
-                y = now_COLUMN + j;
+                R = now_ROW + m;
+                L = now_COLUMN + n;
                 if (flag)
                 {
-                    while (board[x][y] != do_Flip )
+                    while (board[R][L] != do_Flip )
                     {
-                        board[x][y] = do_Flip;
-                        x += i;
-                        y += j;
+                        board[R][L] = do_Flip;
+                        R += m;
+                        L += n;
                     }
                 }
             }
         }
     }
     
-    int m;
+    int i;
     printf("             ::: Flip result :::\n");  // 뒤집은 결과를 출력 
-    for (m = 0; m < 8 ; m++)
+    for (i = 0; i < 8 ; i++)
     {
-       switch(m)
+       switch(i)               // 8개 방향별로 몇개를 뒤집었는지 출력 
        {
           case 0:
              printf("NW: ");
@@ -610,10 +629,11 @@ void input_value(char board[ROW][COLUMN], int counter )
              printf("SE: ");
              break;
       }
-    	printf("%d  ", flip_count[m]);
+    	printf("%d  ", flip_count[i]);
    }
    printf("\n");
-   switch(do_Flip)
+   
+   switch(do_Flip)          // Black(or White) has flipped (뒤집은 개수) othellos! 를 출력  
    {
       case 'B':
          printf("Black ");
