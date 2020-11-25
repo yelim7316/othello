@@ -11,7 +11,7 @@ int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
 int directions[8] = {0,0,0,0,0,0,0,0};     // 왼쪽 위 대각, 위, 오른쪽 위 대각, 오른쪽, 오른쪽 아래 대각, 아래, 왼쪽 아래 대각, 왼쪽 - 8개 방향을 배열로 정의 
-int flip_count[8] = {0,0,0,0,0,0,0,0};   //뒤집은 개수 
+int flip_count[8] = {0,0,0,0,0,0,0,0};    //뒤집은 개수 
 
 int valid_move(char player, int row, int column )  // 올바른 입력인지 확인   
 {

@@ -8,7 +8,7 @@ char board[ROW][COLUMN];  // board 변수 선언
 
 void initial_board(char board[ROW][COLUMN]) // 보드판 초기화 
 {
-   int i,j;   // for 문 돌릴 변수 선언 
+   int i,j;                    // for 문 돌릴 변수 선언 
    for (i=0; i<ROW; i++)      // for문을 돌면서 모든 보드판 빈칸으로 초기화 
    {
       for (j=0; j<COLUMN; j++)
