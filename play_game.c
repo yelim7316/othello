@@ -65,7 +65,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 
             	if (temp_row == 0 || temp_column == 0)   // 0번째 row와 column 에서 왼쪽 대각선은 없으니까 break 한다. 
                 	break;
-             	else                                   //   // 0번째 row와 column이 아니면 temp_index에서 7을 빼면서 계속 왼쪽 대각선을 확인
+             	else                                   // 0번째 row와 column이 아니면 temp_index에서 7을 빼면서 계속 왼쪽 대각선을 확인
              		temp_index -= 7;
          	}     
         }
@@ -74,7 +74,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-         	while(TRUE)
+         	while(TRUE)                                    // 주변에 player의 알이 있는지 확인  
          	{
             	if (othello_board2[temp_index] == 'B') 
                 	f_cnt_up += 1;
@@ -102,14 +102,14 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
     	{
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-         	while(TRUE)
+         	while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
          	{
-	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'B')
     	            f_cnt_rightup += 1;
 	            else if (othello_board2[temp_index] == ' ')
 		            break;
 	            else if (othello_board2[temp_index] == 'W')
-        	    {
+        	    { 
             		directions[2] = 1;
                 	flip_count[2] = f_cnt_rightup;
                 	break;
@@ -131,9 +131,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
          {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-        	while(TRUE)
+        	while(TRUE)                                  // 주변에 player의 알이 있는지 확인 
          	{
-            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+            	if (othello_board2[temp_index] == 'B') 
                 	f_cnt_left += 1;
              	else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -159,9 +159,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-         	while(TRUE)
+         	while(TRUE)                                     // 주변에 player의 알이 있는지 확인 
          	{
-            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+            	if (othello_board2[temp_index] == 'B') 
 	                f_cnt_right += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -186,9 +186,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-	        while(TRUE)
+	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
 	    	{
-	        	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	        	if (othello_board2[temp_index] == 'B')
 	          		f_cnt_leftdown += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -213,9 +213,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-	        while(TRUE)
+	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'B') 
 	                f_cnt_down += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -241,9 +241,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-	        while(TRUE)
+	        while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'B') 
 	                f_cnt_rightdown += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -273,9 +273,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_leftup = 0;
             int temp_index = index - 7;
-	        while(TRUE)
+	        while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_leftup += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -300,9 +300,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-	        while(TRUE)
+	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_up += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -328,9 +328,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-	        while(TRUE)
+	        while(TRUE)                                          // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W')
 	                f_cnt_rightup += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -357,9 +357,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-	        while(TRUE)
+	        while(TRUE)                                        // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_left += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -385,9 +385,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-	        while(TRUE)
+	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_right += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -413,9 +413,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-	        while(TRUE)
+	        while(TRUE)                                        // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_leftdown += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -440,9 +440,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-	        while(TRUE)
+	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_down += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -467,9 +467,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-	        while(TRUE)
+	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
 	        {
-	            if (othello_board2[temp_index] == 'W') // 주변에 player 의 알이 있다면
+	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_rightdown += 1;
 	            else if (othello_board2[temp_index] == ' ')
 	                break;
@@ -492,7 +492,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
    }
    
    
-   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 , 1이면 valid move이지만 0 이면 invalid move !!!! 
+   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 , 1이면 valid move이지만 0 이면 invalid move  
    {
          if (directions[i] == 1)
     	{
@@ -504,7 +504,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 
 
 
-void input_value(char board[ROW][COLUMN], int counter )
+void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력하라고 명령하는 함수 
 {
    int row;
    int column;
@@ -570,31 +570,31 @@ void input_value(char board[ROW][COLUMN], int counter )
             if (now_ROW + m >=0 && now_ROW + m < ROW && now_COLUMN +n >=0 && now_COLUMN + n < COLUMN && board[now_ROW+m][now_COLUMN+n] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
             {
                 int R = now_ROW + m;       // 현재 row에서 8방향으로 돌면서 row의 위치를 R 에 저장 
-                int L = now_COLUMN + n;    // 현재 column에서 8방향으로 돌면서 column의 위치를 L 에 저장 
+                int C = now_COLUMN + n;    // 현재 column에서 8방향으로 돌면서 column의 위치를 C 에 저장 
                 int flag = FALSE;
                 
-				while (R < ROW && R >= 0 && L < COLUMN && L >= 0) 
+				while (R < ROW && R >= 0 && C < COLUMN && C >= 0) 
                 {
-                    if (board[R][L] == do_Flip )
+                    if (board[R][C] == do_Flip )   // 8방향으로 돌때 현재 player의 알이 있으면 
                     {
                         flag = TRUE;
                         break;
                     }
-                    else if (board[R][L] == ' ')
+                    else if (board[R][C] == ' ')   // 빈칸이면 break
                         break;
                     R += m;
-                    L += n;
+                    C += n;
                 }
                 
                 R = now_ROW + m;
-                L = now_COLUMN + n;
+                C = now_COLUMN + n;
                 if (flag)
                 {
-                    while (board[R][L] != do_Flip )
+                    while (board[R][C] != do_Flip )  // R이라는 row와 C이라는 column의 위치에 현재 player의 알이 놓여있는게 아니라면
                     {
-                        board[R][L] = do_Flip;
+                        board[R][C] = do_Flip;        // 현재 player의 알이 된다. 
                         R += m;
-                        L += n;
+                        C += n;
                     }
                 }
             }
