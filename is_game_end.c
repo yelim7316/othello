@@ -8,7 +8,7 @@ int is_game_end (char _player)   // check the game is over
    int blank_check = 0;          // the variable that check the blank 
    int i,j;                  
    int m,n;                   
-   char temp_same_side = ' ';   // variacl to check board is one color
+   char temp_same_side = ' ';   // variable to check board is one color
    
    for (m = 0; m < 6; m++)      // check board is one color
    {
