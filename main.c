@@ -7,46 +7,46 @@
 #define TRUE 1
 #define FALSE 0
 
-char board[ROW][COLUMN];   // 보드판  
-extern int directions[8];      // 왼쪽 위 대각, 위, 오른쪽 위 대각, 오른쪽, 오른쪽 아래 대각, 아래, 왼쪽 아래 대각, 왼쪽 - 8개 방향을 배열로 정의 
-extern int flip_count[8];      //뒤집은 개수 
+char board[ROW][COLUMN];       
+extern int directions[8];      // left up diagonal, up, right up diagonal, right, right down diagonal, down, left down diagonal, left  
+extern int flip_count[8];      // count reversed pieces 
 
-void initial_board(char board[ROW][COLUMN]); // 보드판 초기화 
+void initial_board(char board[ROW][COLUMN]); // inital board
 
-void print_board(char board[ROW][COLUMN]);   // 보드판 출력 
+void print_board(char board[ROW][COLUMN]);   // print board
 
-void print_status(int white, int black, int counter);   // 현재 상태 나타내는 함수 
+void print_status(int white, int black, int counter);   // print current status 
 
-int count_num(char board[ROW][COLUMN], char c);  // 알 개수를 세는 함수  
+int count_num(char board[ROW][COLUMN], char c);  // count pieces
 
-int valid_move(char player, int row, int column );  // 올바른 입력인지 확인하는 함수   
+int valid_move(char player, int row, int column );  // check that the input is correct   
 
-void input_value(char board[ROW][COLUMN], int counter ); // 알을 놓을 위치 입력하라고 명령하는 함수 
+void input_value(char board[ROW][COLUMN], int counter ); // command where to place the pieces
 
-void flip_pieces(char board[ROW][COLUMN], int counter); // 알을 뒤집는 함수 
+void flip_pieces(char board[ROW][COLUMN], int counter); // reverse pieces
 
-void check_result(int white, int black);  // 결과를 출력하는 함수 
+void check_result(int white, int black);  // print the result
 
-int is_game_end (char _player);   // 게임이 끝났는지 확인하는 함수 
+int is_game_end (char _player);   // check the game is over
 
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(int argc, char *argv[]) {
    
-   int count_turn = 1;         // 게임의 turn을 세는 변수 
-   int game_ing = 1;           // 게임이 계속 진행되고 있음을 나타내는 변수로 1이면 게임 진행, 0이면 게임 끝을 나타냄 
+	int count_turn = 1;         // count game's turn 
+	int game_ing = 1;           // indicates that the game is still in progress. 1 indicates game progress, 0 indicated game end  
 
-	initial_board(board);      // 보드판 초기화 
+	initial_board(board);      // inital board
 
-   int num_white = count_num(board, 'W');    // 보드에 있는 white 알 개수를 세서 num_white 변수에 저장 
-   int num_black = count_num(board, 'B');    // 보드에 있는 black 알 개수를 세서 num_black 변수에 저장 
+	int num_white = count_num(board, 'W');    // count the number of white pieces and store them in num_white
+	int num_black = count_num(board, 'B');    // count the number of black pieces and store them in num_black
       
       
-   do 
-   {
-      // directions[8] = int{0,0,0,0,0,0,0,0}; 초기화 
-      // flip_count[8] = int{0,0,0,0,0,0,0,0}; 초기화 
+	do 
+	{
+      // directions[8] = int{0,0,0,0,0,0,0,0}; 
+      // flip_count[8] = int{0,0,0,0,0,0,0,0}; 
       int q;
       for(q = 0; q < 8; q++)
       {
@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
          flip_count[q] = 0;
       }
       
-    	print_board(board);                                  // 보드판 출력 
-    	print_status(num_white, num_black, count_turn );    // 현재 상태 출력 
+    	print_board(board);                                  // print board
+    	print_status(num_white, num_black, count_turn );    // print current status 
       
-      char temp_player;            // 현재 player 설정 - count_turn을 2로 나누었을때 나머지가 0이면 black player 이고 1이면 white player 로 설정 
+      char temp_player;            // set current player  
       switch(count_turn % 2)  
       {
          case 0:
@@ -68,32 +68,32 @@ int main(int argc, char *argv[]) {
             break;
       }
    
-    	if ( is_game_end('B') == 1 && is_game_end('W') == 1)   // 게임이 끝나는 조건인지 확인 - 두 player에 대해서 모두 is_game_end 함수가 1이면 게임 종료  
+    	if ( is_game_end('B') == 1 && is_game_end('W') == 1)   // check that the game is ended. if is_game_end function about two players return 1, the game is over
 		{
-			printf("게임 끝\n");
+			printf("The game is over! \n");
 		 	game_ing = 0;		 
 		}
-		else if (is_game_end(temp_player) == 1)             // 두 player 중 한 명의 player 가 알을 놓을 수 없으면 그 turn은 pass 
+		else if (is_game_end(temp_player) == 1)             // if one of players can't put pieces, the game will pass 
        		printf("PASS");
         else
 		{
-			for(q = 0; q < 8; q++)   //directions, flip_count 초기화
+			for(q = 0; q < 8; q++)   //directions, flip_count initialize
       		{
          		directions[q] = 0;
          		flip_count[q] = 0;
           	}
-	   		input_value(board, count_turn);         // 값을 입력 받는다. 
-       		flip_pieces(board, count_turn);         // 뒤집기 함수를 통해 알을 뒤집는다.  
+	   		input_value(board, count_turn);         // command the input
+       		flip_pieces(board, count_turn);         // reverse pieces  
     	}
        
-      	count_turn ++;                              // 게임 turn 1 증가 
-      	num_white = count_num(board, 'W');          // white 알 개수를 세서 num_white에 저장 
-      	num_black = count_num(board, 'B');          // black 알 개수를 세서 num_black에 저장 
-   } while (game_ing);
+      	count_turn ++;                               
+      	num_white = count_num(board, 'W');          // count white pieces
+      	num_black = count_num(board, 'B');          // count black pieces 
+	} while (game_ing);
    
    
-   print_board(board);                       // 보드판 출력 
-   check_result(num_white, num_black);       // 결과 출력 
+   print_board(board);                       // print board
+   check_result(num_white, num_black);       // print the result
    
    
    return 0;

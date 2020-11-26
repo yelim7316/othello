@@ -10,13 +10,13 @@
 int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
-int directions[8] = {0,0,0,0,0,0,0,0};     // 왼쪽 위 대각, 위, 오른쪽 위 대각, 오른쪽, 오른쪽 아래 대각, 아래, 왼쪽 아래 대각, 왼쪽 - 8개 방향을 배열로 정의 
-int flip_count[8] = {0,0,0,0,0,0,0,0};    //뒤집은 개수 
+int directions[8] = {0,0,0,0,0,0,0,0};     // left up diagonal, up, right up diagonal, right, right down diagonal, down, left down diagonal, left 
+int flip_count[8] = {0,0,0,0,0,0,0,0};    // count reversed pieces 
 
-int valid_move(char player, int row, int column )  // 올바른 입력인지 확인   
+int valid_move(char player, int row, int column )  // check the input 
 {
    int cnt = 0;
-   char othello_board2[36] =            // 1차원 배열 othello_board2[36] 선언   
+   char othello_board2[36] =            // declare one dimensional array, "othello_board2[36]"  
    { ' ', ' ', ' ', ' ', ' ', ' ', 
       ' ', ' ', ' ', ' ', ' ', ' ', 
       ' ', ' ', ' ', ' ', ' ', ' ', 
@@ -27,7 +27,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
    int i;
    int row_, column_;                    
    
-   for(row_ = 0; row_ < ROW; row_++ )  // 2차원 배열의 board를 1차원의 othello_board2 배열에 저장 
+   for(row_ = 0; row_ < ROW; row_++ )  // store boards of two dimensional array in one dimensional othello_board2
    {
       for ( column_ = 0; column_ < COLUMN; column_++)
       {
@@ -38,43 +38,46 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
       }
    } 
      
-   int index = (row * 6) + column;  // row와 column을 1차원의 index 변수에 저장 
+   int index = (row * 6) + column;  // store row and column in one dimensional index variable
    
-    /*************************************** player 가 White 일 때 *********************************************/
+    /*************************************** If player is White *********************************************/
    if ( player == 'W' )
    { 
-        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'B') // 왼쪽 대각선 
+        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'B') // left up diagonal 
         {
-            int f_cnt_leftup = 0;        // 왼쪽 대각선에 있는 알을 뒤집은 개수를 저장할 변수 
-            int temp_index = index - 7;  // 왼쪽 대각선에 있는 알을 확인하기 위한 변수 
+            // store the number of pieces in the left up diagonal line
+			int f_cnt_leftup = 0;
+			// check if there are pieces in the left up diagonal line     
+            int temp_index = index - 7;  
+            
          	while(TRUE)
          	{
-            	if (othello_board2[temp_index] == 'B') // 왼쪽 대각선에 상대편 알이 있다면 
+            	if (othello_board2[temp_index] == 'B')        // if there's an opposing pieces(BLACK) on the left up diagonal
                 	f_cnt_leftup += 1;
              	else if (othello_board2[temp_index] == ' ')
 	                break;
-    	        else if (othello_board2[temp_index] == 'W')  //상대편 알의 왼쪽 대각선에 현재 player의 알(white)이 있다면
+    	        else if (othello_board2[temp_index] == 'W')  // if there is a current player's piece(WHITE) on the left diagonal of the oppent's piece
         	    {
             	    directions[0] = 1;
                 	flip_count[0] = f_cnt_leftup;
                 	break;
             	}  
             	
-            	int temp_row = temp_index / 6;        //알의 왼쪽 대각선 위치의 row를 temp_row 라는 변수에 저장
-            	int temp_column = temp_index % 6;     // 알의 왼쪽 대각선 위치의 column를 temp_column 이라는 변수에 저장
+            	int temp_row = temp_index / 6;        // store the row of the left diagonal positon of the piece in a variable "temp_row"
+            	int temp_column = temp_index % 6;     // store the column of the left diagonal positon of the piece in a variable "temp_column"
 
-            	if (temp_row == 0 || temp_column == 0)   // 0번째 row와 column 에서 왼쪽 대각선은 없으니까 break 한다. 
+            	if (temp_row == 0 || temp_column == 0)  
                 	break;
-             	else                                   // 0번째 row와 column이 아니면 temp_index에서 7을 빼면서 계속 왼쪽 대각선을 확인
+             	else                                   // if the position of piece is not the 0th row and column, continue check
              		temp_index -= 7;
          	}     
         }
       //---------------------------------------------------------------------------
-      	if ( row != 0 && othello_board2[index - 6] == 'B') // 위 쪽 
+      	if ( row != 0 && othello_board2[index - 6] == 'B') // UP
        {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-         	while(TRUE)                                    // 주변에 player의 알이 있는지 확인  
+         	while(TRUE)                                    // check the around pieces
          	{
             	if (othello_board2[temp_index] == 'B') 
                 	f_cnt_up += 1;
@@ -98,11 +101,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        }   
        
 	   //---------------------------------------------------------------------------
-      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'B') // 오른쪽 위 
+      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'B') // Right up diagonal
     	{
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-         	while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
+         	while(TRUE)                                       // check the around pieces
          	{
 	            if (othello_board2[temp_index] == 'B')
     	            f_cnt_rightup += 1;
@@ -127,11 +130,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
       
       //---------------------------------------------------------------------------
       
-      	if ( column != 0 && othello_board2[index - 1] == 'B') // 왼쪽 
+      	if ( column != 0 && othello_board2[index - 1] == 'B') // Left
          {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-        	while(TRUE)                                  // 주변에 player의 알이 있는지 확인 
+        	while(TRUE)                                  // check the around pieces 
          	{
             	if (othello_board2[temp_index] == 'B') 
                 	f_cnt_left += 1;
@@ -155,11 +158,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        }
         
 	 //---------------------------------------------------------------------------
-      	if ( column != 5 && othello_board2[index + 1] == 'B') // 오른쪽 
+      	if ( column != 5 && othello_board2[index + 1] == 'B') // Right
         {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-         	while(TRUE)                                     // 주변에 player의 알이 있는지 확인 
+         	while(TRUE)                                     // check the around pieces
          	{
             	if (othello_board2[temp_index] == 'B') 
 	                f_cnt_right += 1;
@@ -182,11 +185,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         	}      
        }
      //---------------------------------------------------------------------------
-      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'B') // 왼쪽 아래 
+      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'B') // left down diagonal
         {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                         // check the around pieces
 	    	{
 	        	if (othello_board2[temp_index] == 'B')
 	          		f_cnt_leftdown += 1;
@@ -209,11 +212,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	        }      
 	    }
        //---------------------------------------------------------------------------
-      	if (row != 5 && othello_board2[index + 6] == 'B') // 아래 
+      	if (row != 5 && othello_board2[index + 6] == 'B') // DOWN
         {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                         // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'B') 
 	                f_cnt_down += 1;
@@ -237,11 +240,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        }
        
       //---------------------------------------------------------------------------
-      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'B') // 오른쪽 아래 
+      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'B') // Right down diagonal
         {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-	        while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                       // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'B') 
 	                f_cnt_rightdown += 1;
@@ -265,15 +268,15 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         }   
    }
    
-   /*************************************** player 가 Black 일 때 *********************************************/
+   /*************************************** If the player is Black *********************************************/
    if ( player == 'B' )
    {
       
-        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'W') // 왼쪽 대각선 
+        if ((row != 0 && column != 0) && othello_board2[index - 7] == 'W') //  left up diagonal
         {
             int f_cnt_leftup = 0;
             int temp_index = index - 7;
-	        while(TRUE)                                       // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                       // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_leftup += 1;
@@ -296,11 +299,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	        }      
     	}   
       //---------------------------------------------------------------------------
-      	if (row != 0 && othello_board2[index - 6] == 'W') // 위 쪽 
+      	if (row != 0 && othello_board2[index - 6] == 'W') // UP
         {
             int f_cnt_up = 0;
             int temp_index = index - 6;
-	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                      // check the around pieces 
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_up += 1;
@@ -324,11 +327,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
         } 
 	     
      //---------------------------------------------------------------------------
-      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'W') // 오른쪽 위 
+      	if ((row != 0 && column != 5) && othello_board2[index - 5] == 'W') // Right up diagonal 
         {
             int f_cnt_rightup = 0;
             int temp_index = index - 5;
-	        while(TRUE)                                          // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                          // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W')
 	                f_cnt_rightup += 1;
@@ -353,11 +356,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
       
       //---------------------------------------------------------------------------
       
-      	if (column != 0 && othello_board2[index - 1] == 'W') // 왼쪽 
+      	if (column != 0 && othello_board2[index - 1] == 'W') // Left
         {
             int f_cnt_left = 0;
             int temp_index = index - 1;
-	        while(TRUE)                                        // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                        // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_left += 1;
@@ -381,11 +384,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        }
       
       //---------------------------------------------------------------------------
-      	if (column != 5 && othello_board2[index + 1] == 'W') // 오른쪽 
+      	if (column != 5 && othello_board2[index + 1] == 'W') // Right
         {
             int f_cnt_right = 0;
             int temp_index = index + 1;
-	        while(TRUE)                                         // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                         // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_right += 1;
@@ -409,11 +412,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
        }
        
        //--------------------------------------------------------------------------- 
-      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'W') // 왼쪽 아래 
+      	if ((row != 5 && column != 0) && othello_board2[index + 5] == 'W') // left down diagonal
         {
             int f_cnt_leftdown = 0;
             int temp_index = index + 5;
-	        while(TRUE)                                        // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                        // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_leftdown += 1;
@@ -436,11 +439,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	        }      
        	}
     //---------------------------------------------------------------------------
-      	if (row != 5 && othello_board2[index + 6] == 'W') // 아래 
+      	if (row != 5 && othello_board2[index + 6] == 'W') // Down
         {
             int f_cnt_down = 0;
             int temp_index = index + 6;
-	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                      // check the around pieces 
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_down += 1;
@@ -463,11 +466,11 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	        }      
         }
       //--------------------------------------------------------------------------- 
-      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'W') // 오른쪽 아래 
+      	if ((row != 5 && column != 5) && othello_board2[index + 7] == 'W') // right down diagonal
         {
             int f_cnt_rightdown = 0;
             int temp_index = index + 7;
-	        while(TRUE)                                      // 주변에 player의 알이 있는지 확인 
+	        while(TRUE)                                      // check the around pieces
 	        {
 	            if (othello_board2[temp_index] == 'W') 
 	                f_cnt_rightdown += 1;
@@ -492,7 +495,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
    }
    
    
-   for (i = 0; i < 8; i++)  // directions[i]가 1인지 0인지 판단하는 반복문 , 1이면 valid move이지만 0 이면 invalid move  
+   for (i = 0; i < 8; i++)  // check if directions[i] is 1 or 0. If it is 1, valid move or else invalid move 
    {
          if (directions[i] == 1)
     	{
@@ -504,7 +507,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 
 
 
-void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력하라고 명령하는 함수 
+void input_value(char board[ROW][COLUMN], int counter )   // command where to place the pieces 
 {
    int row;
    int column;
@@ -516,9 +519,9 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
       printf("put a new othello(such as 4 5): ");
       scanf("%d %d", &row, &column);
       
-      if (board[row][column] != ' ')  // 이미 알이 놓여져 있는 곳일 때  
+      if (board[row][column] != ' ') 
       { 
-         printf("Not a valid move!(already occupied)\n"); // 알을 놓지 못함을 출력 
+         printf("Not a valid move!(already occupied)\n"); 
          input_value(board, counter);
       }
          
@@ -535,11 +538,11 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
 
 
 
- void flip_pieces(char board[ROW][COLUMN], int counter) // 알 뒤집는 함수 
+ void flip_pieces(char board[ROW][COLUMN], int counter)      // reverse the pieces
  {
-    int m,n;         // for문 돌기 위한 변수 
+    int m,n;   
      
-	char do_Flip;   // 뒤집기를 할 알의 저장 
+	char do_Flip;                  // the piece that reverse the pieces
 	if (counter % 2 == 0)
 	{
 	 	do_Flip = 'B';
@@ -549,7 +552,7 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
 	 	do_Flip = 'W';
 	}
 	
-	char to_Flip;   // 뒤집힐 알 저장 
+	char to_Flip;                   // the piece to be reversed
 	if ( counter % 2 == 1)
 	{
 	 	to_Flip = 'B';
@@ -560,26 +563,26 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
 	}
 	 
 	 
-     for (m = -1; m <= 1; m++)   // 내가 놓은 알로부터 8개 방향으로 for문을 돈다.  
+     for (m = -1; m <= 1; m++)   // check the eight directions from the piece  
      {
         for (n = -1; n <= 1; n++)
         {
-            if (m == 0 && n == 0)   // 내가 놓은 알의 위치  
+            if (m == 0 && n == 0) 
                 continue;
-            if (now_ROW + m >=0 && now_ROW + m < ROW && now_COLUMN +n >=0 && now_COLUMN + n < COLUMN && board[now_ROW+m][now_COLUMN+n] == to_Flip)   // 현재 row와 column에서 8방향으로 상대편 알이 있는지 확인 
+            if (now_ROW + m >=0 && now_ROW + m < ROW && now_COLUMN +n >=0 && now_COLUMN + n < COLUMN && board[now_ROW+m][now_COLUMN+n] == to_Flip)   // check if there is opponent's piece
             {
-                int R = now_ROW + m;       // 현재 row에서 8방향으로 돌면서 row의 위치를 R 에 저장 
-                int C = now_COLUMN + n;    // 현재 column에서 8방향으로 돌면서 column의 위치를 C 에 저장 
+                int R = now_ROW + m;       // store the row that turning 8 directions from now_ROW in R
+                int C = now_COLUMN + n;    // store the column that turning 8 directions from now_COLUMN in C
                 int flag = FALSE;
                 
                 while (R < ROW && R >= 0 && C < COLUMN && C >= 0) 
                 {
-                    if (board[R][C] == do_Flip )   // 8방향으로 돌때 현재 player의 알이 있으면 
+                    if (board[R][C] == do_Flip )   // if there is current player's piece 
                     {
                         flag = TRUE;
                         break;
                     }
-                    else if (board[R][C] == ' ')   // 빈칸이면 break
+                    else if (board[R][C] == ' ')   // if blank 
                         break;
                     R += m;
                     C += n;
@@ -589,9 +592,9 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
                 C = now_COLUMN + n;
                 if (flag)
                 {
-                    while (board[R][C] != do_Flip )  // R이라는 row와 C이라는 column의 위치에 현재 player의 알이 놓여있는게 아니라면
+                    while (board[R][C] != do_Flip ) 
                     {
-                        board[R][C] = do_Flip;        // 현재 player의 알이 된다. 
+                        board[R][C] = do_Flip; 
                         R += m;
                         C += n;
                     }
@@ -601,10 +604,10 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
     }
     
     int i;
-    printf("             ::: Flip result :::\n");  // 뒤집은 결과를 출력 
+    printf("             ::: Flip result :::\n");  // print the result
     for (i = 0; i < 8 ; i++)
     {
-       switch(i)               // 8개 방향별로 몇개를 뒤집었는지 출력 
+       switch(i)               // print the number of pieces about directions
        {
           case 0:
              printf("NW: ");
@@ -635,7 +638,7 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
    }
    printf("\n");
    
-   switch(do_Flip)          // Black(or White) has flipped (뒤집은 개수) othellos! 를 출력  
+   switch(do_Flip)          // print "Black(or White) has flipped (num of pieces) othellos!" 
    {
       case 'B':
          printf("Black ");
