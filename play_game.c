@@ -540,15 +540,15 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
     int m,n;         // for문 돌기 위한 변수 
      
 	char do_Flip;   // 뒤집기를 할 알의 저장 
-     if (counter % 2 == 0)
-	 {
+	if (counter % 2 == 0)
+	{
 	 	do_Flip = 'B';
-	 }
-	 else
-	 {
+	}
+	else
+	{
 	 	do_Flip = 'W';
-	 }
-	 
+	}
+	
 	char to_Flip;   // 뒤집힐 알 저장 
 	if ( counter % 2 == 1)
 	{
