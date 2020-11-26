@@ -16,7 +16,7 @@ int flip_count[8] = {0,0,0,0,0,0,0,0};    //뒤집은 개수
 int valid_move(char player, int row, int column )  // 올바른 입력인지 확인   
 {
    int cnt = 0;
-   char othello_board2[36] = 
+   char othello_board2[36] =            // 1차원 배열 othello_board2[36] 선언   
    { ' ', ' ', ' ', ' ', ' ', ' ', 
       ' ', ' ', ' ', ' ', ' ', ' ', 
       ' ', ' ', ' ', ' ', ' ', ' ', 
@@ -25,7 +25,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
       ' ', ' ', ' ', ' ', ' ', ' '};
 
    int i;
-   int row_, column_;
+   int row_, column_;                    
    
    for(row_ = 0; row_ < ROW; row_++ )  // 2차원 배열의 board를 1차원의 othello_board2 배열에 저장 
    {
@@ -38,8 +38,9 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
       }
    } 
      
-   int index = (row * 6) + column;  // row와 column을 통해 1차원의 index 변수에 저장 
+   int index = (row * 6) + column;  // row와 column을 1차원의 index 변수에 저장 
    
+    /*************************************** player 가 White 일 때 *********************************************/
    if ( player == 'W' )
    { 
         if ((row != 0 && column != 0) && othello_board2[index - 7] == 'B') // 왼쪽 대각선 
@@ -48,23 +49,23 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
             int temp_index = index - 7;  // 왼쪽 대각선에 있는 알을 확인하기 위한 변수 
          	while(TRUE)
          	{
-            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면 
+            	if (othello_board2[temp_index] == 'B') // 왼쪽 대각선에 상대편 알이 있다면 
                 	f_cnt_leftup += 1;
              	else if (othello_board2[temp_index] == ' ')
 	                break;
-    	        else if (othello_board2[temp_index] == 'W')
+    	        else if (othello_board2[temp_index] == 'W')  //상대편 알의 왼쪽 대각선에 현재 player의 알(white)이 있다면
         	    {
             	    directions[0] = 1;
                 	flip_count[0] = f_cnt_leftup;
                 	break;
             	}  
             	
-            	int temp_row = temp_index / 6;
-            	int temp_column = temp_index % 6; 
+            	int temp_row = temp_index / 6;        //알의 왼쪽 대각선 위치의 row를 temp_row 라는 변수에 저장
+            	int temp_column = temp_index % 6;     // 알의 왼쪽 대각선 위치의 column를 temp_column 이라는 변수에 저장
 
-             	if (temp_row == 0 || temp_column == 0)
+            	if (temp_row == 0 || temp_column == 0)   // 0번째 row와 column 에서 왼쪽 대각선은 없으니까 break 한다. 
                 	break;
-             	else
+             	else                                   //   // 0번째 row와 column이 아니면 temp_index에서 7을 빼면서 계속 왼쪽 대각선을 확인
              		temp_index -= 7;
          	}     
         }
@@ -75,7 +76,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
             int temp_index = index - 6;
          	while(TRUE)
          	{
-            	if (othello_board2[temp_index] == 'B') // 주변에 player 의 알이 있다면
+            	if (othello_board2[temp_index] == 'B') 
                 	f_cnt_up += 1;
              	else if (othello_board2[temp_index] == ' ')
                 	break;
@@ -88,6 +89,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
             
 				int temp_row = temp_index / 6;
             	int temp_column = temp_index % 6;
+            	
             	if (temp_row == 0)
                 	break;
              	else
@@ -112,6 +114,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
                 	flip_count[2] = f_cnt_rightup;
                 	break;
             	}
+            	
 				int temp_row = temp_index / 6;
             	int temp_column = temp_index % 6;
 
@@ -141,7 +144,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
             	    break;
             	}
             	
-             	int temp_row = temp_index / 6;
+            	int temp_row = temp_index / 6;
             	int temp_column = temp_index % 6;
             	
             	if (temp_column == 0)
@@ -171,7 +174,7 @@ int valid_move(char player, int row, int column )  // 올바른 입력인지 확인
 	            
                 int temp_row = temp_index / 6;
             	int temp_column = temp_index % 6;
-            	
+            
              	if (temp_column == 5)
                 	break;
              	else
