@@ -1,4 +1,3 @@
-
 #define ROW 6
 #define COLUMN 6
 

@@ -9,7 +9,7 @@
 
 char board[ROW][COLUMN];       
 extern int directions[8];      // left up diagonal, up, right up diagonal, right, right down diagonal, down, left down diagonal, left  
-extern int flip_count[8];      // count reversed pieces 
+extern int flip_count[8];      // count reversed pieces according to eigth directions 
 
 void initial_board(char board[ROW][COLUMN]); // inital board
 
@@ -82,8 +82,8 @@ int main(int argc, char *argv[]) {
          		directions[q] = 0;
          		flip_count[q] = 0;
           	}
-	   		input_value(board, count_turn);         // command the input
-       		flip_pieces(board, count_turn);         // reverse pieces  
+			input_value(board, count_turn);         // command the input
+			flip_pieces(board, count_turn);         // reverse pieces  
     	}
        
       	count_turn ++;                               

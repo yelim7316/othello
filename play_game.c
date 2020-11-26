@@ -11,7 +11,7 @@ int now_ROW;
 int now_COLUMN;
 char board[ROW][COLUMN];
 int directions[8] = {0,0,0,0,0,0,0,0};     // left up diagonal, up, right up diagonal, right, right down diagonal, down, left down diagonal, left 
-int flip_count[8] = {0,0,0,0,0,0,0,0};    // count reversed pieces 
+int flip_count[8] = {0,0,0,0,0,0,0,0};    // count reversed pieces according to eigth directions
 
 int valid_move(char player, int row, int column )  // check the input 
 {
