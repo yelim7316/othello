@@ -572,7 +572,7 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
                 int C = now_COLUMN + n;    // 현재 column에서 8방향으로 돌면서 column의 위치를 C 에 저장 
                 int flag = FALSE;
                 
-				while (R < ROW && R >= 0 && C < COLUMN && C >= 0) 
+                while (R < ROW && R >= 0 && C < COLUMN && C >= 0) 
                 {
                     if (board[R][C] == do_Flip )   // 8방향으로 돌때 현재 player의 알이 있으면 
                     {
@@ -645,7 +645,7 @@ void input_value(char board[ROW][COLUMN], int counter )   // 알을 놓을 위치 입력
          break;         
    }
    printf("has flipped %d othellos!\n\n\n", flip_count[0] + flip_count[1] + flip_count[2]+ flip_count[3]+ flip_count[4]+ flip_count[5]+ flip_count[6]+ flip_count[7]);
-    // directions[i]가 1인 아이들과 그 아이들을 통해서 몇개를 뒤집었는지 (flip_count[i]) 
+
  }
 
 
